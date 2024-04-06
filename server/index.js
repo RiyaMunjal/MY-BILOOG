@@ -7,15 +7,16 @@ import cookieParser from "cookie-parser";
 import multer from 'multer'
 
 const app = express();
-const PORT = 5000;
 dotenv.config({
   path: "./.env",
 });
 
+const PORT = process.env.PORT || 5000;
+
 app.use(express.json());
 app.use(cookieParser())
 app.use(cors({
-  origin:'http://localhost:5173',
+  origin: process.env.frontendURL,
   method:['PUT', 'POST', 'GET', 'DELETE'],
   credentials:true
 }))
@@ -30,25 +31,22 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage })
+
 app.post('/upload', upload.single('file'), (req, res)=>{
   console.log('upload')
   const file=req.file;
   console.log(file.filename);
-  res.status(200).json(file.filename);
+  res.status(200).send(file.filename);
 })
-
-
 
 app.use("/api/auth", authRouter);
 app.use('/api/post', postRouter);
 // app.use('/api/user', userRouter);
 
-
-
 app.use((err, req, res, next) => {
   const statusCode =
     res.statusCode && res.statusCode !== 200 ? res.statusCode : 500;
-  res.status(statusCode).json({
+    res.status(statusCode).json({
     Status: statusCode,
     Error: err.message,
     success: false,

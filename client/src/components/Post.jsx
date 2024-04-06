@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 import { AuthContext } from "../context/authContext";
 import DOMPurify from "dompurify";
+import { REACT_APP_BACKEND_URL } from "../config";
 
 const Post = () => {
 
@@ -55,7 +56,7 @@ const Post = () => {
   const { user } = useContext(AuthContext);
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(`http://localhost:5000/api/post/${id}`);
+      const result = await axios.get(`${REACT_APP_BACKEND_URL}/api/post/${id}`);
       setPost(result.data[0]);
     };
     fetchData();
@@ -64,7 +65,7 @@ const Post = () => {
   useEffect(()=>{
     const getAllposts=async()=>{
       try{
-        const res=await axios.get(`http://localhost:5000/api/post/?cat=${state.cat}`)
+        const res=await axios.get(`${REACT_APP_BACKEND_URL}/api/post/?cat=${state.cat}`)
         setPosts(res.data)
         console.log(res.data);
       }catch(err){
@@ -77,7 +78,7 @@ const Post = () => {
 
   const deleteHandler=async()=>{
 
-    const res=await axios.delete(`http://localhost:5000/api/post/${id}`, {
+    const res=await axios.delete(`${REACT_APP_BACKEND_URL}/api/post/${id}`, {
       withCredentials:true
     })
     Navigate('/')

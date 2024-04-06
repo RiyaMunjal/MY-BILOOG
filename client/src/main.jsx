@@ -16,6 +16,8 @@ import Write from "./components/Write.jsx";
 import Register from "./components/Register.jsx";
 import { AuthContextProvider } from "./context/authContext.jsx";
 
+
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>

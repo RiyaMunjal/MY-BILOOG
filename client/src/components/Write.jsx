@@ -6,6 +6,7 @@ import { AuthContext } from "../context/authContext";
 import momemt from "moment";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { REACT_APP_BACKEND_URL } from "../config";
 
 const Write = () => {
   const { state } = useLocation();
@@ -21,7 +22,9 @@ const Write = () => {
       console.log("upload function");
       const formdata = new FormData();
       formdata.append("file", file);
-      const res = await axios.post("http://localhost:5000/upload", formdata);
+      const res = await axios.post(`${REACT_APP_BACKEND_URL}/upload`, formdata, {
+        withCredentials:true
+      });
       console.log(res.data);
       alert("File uplaoded");
       return res.data;
@@ -38,7 +41,7 @@ const Write = () => {
       console.log(2);
       console.log(state);
       const res = state
-        ? await axios.put(`http://localhost:5000/api/post/${state?.id}` , {
+        ? await axios.put(`${REACT_APP_BACKEND_URL}/api/post/${state?.id}` , {
             title,
             description: value,
             img: imgurl,
@@ -48,7 +51,7 @@ const Write = () => {
           }
         )
         : await axios.post(
-            "http://localhost:5000/api/post",
+            `${REACT_APP_BACKEND_URL}/api/post`,
             {
               title,
               description: value,

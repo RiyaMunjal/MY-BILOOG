@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { REACT_APP_BACKEND_URL } from "../config";
 
 export const AuthContext = createContext(null);
 
@@ -14,7 +15,7 @@ export const AuthContextProvider = (props) => {
 
   const login = async (input) => {
     const res = await axios.post(
-      "http://localhost:5000/api/auth/login",
+      `${REACT_APP_BACKEND_URL}/api/auth/login`,
       input,
       {
         headers: {
@@ -27,7 +28,7 @@ export const AuthContextProvider = (props) => {
   };
 
   const logout = async () => {
-    const res = await axios.get("http://localhost:5000/api/auth/logout", {
+    const res = await axios.get(`${REACT_APP_BACKEND_URL}/api/auth/logout`, {
       withCredentials: true,
     });
     console.log(res);

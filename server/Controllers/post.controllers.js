@@ -15,7 +15,6 @@ export const getSinglePost = expressAsyncHandler(async (req, res) => {
   console.log(req.params);
   const q =
     "select name, title, cat, p.id as id ,  description, date, p.image, u.image as user_img from user u JOIN post p ON u.id=p.uid where p.id=?";
-
   const [result] = await pool.query(q, [id]);
   res.status(200).send(result);
 });

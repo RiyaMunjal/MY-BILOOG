@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import Footer from "./Footer";
 import axios from "axios";
 import DOMPurify from 'dompurify'
+import { REACT_APP_BACKEND_URL } from "../config";
 
 const Home = () => {
   // const posts=[
@@ -41,7 +42,7 @@ const Home = () => {
   useEffect(() => {
     const getAllPost = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/post/${cat}`);
+        const res = await axios.get(`${REACT_APP_BACKEND_URL}/api/post/${cat}`);
         setPosts(res.data);
       } catch (err) {
         console.log(err);
