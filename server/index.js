@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import multer from 'multer'
+import path from 'path'
+import { fileURLToPath } from 'url';
 
 const app = express();
 dotenv.config({
@@ -20,24 +22,27 @@ app.use(cors({
   method:['PUT', 'POST', 'GET', 'DELETE'],
   credentials:true
 }))
-
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const absoluteUploadPath = path.join(__dirname, '..', 'client', 'public', 'uploads');
+console.log(absoluteUploadPath);
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../client/public/uploads')
+    cb(null, absoluteUploadPath)
   },
   filename: function (req, file, cb) {  
     cb(null, Date.now()+file.originalname)
   }
 })
 
-const upload = multer({ storage: storage })
 
+const upload = multer({ storage: storage })
 app.post('/upload', upload.single('file'), (req, res)=>{
   console.log('upload')
   const file=req.file;
   console.log(file.filename);
   res.status(200).send(file.filename);
 })
+
 
 app.use("/api/auth", authRouter);
 app.use('/api/post', postRouter);
@@ -54,5 +59,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, (req, res) => {
-  console.log(`Server is listening on the ${PORT}`);
+  console.log(`Server is listening on the ${PORT} `);
 });

@@ -37,6 +37,7 @@ const Write = () => {
     try {
       console.log(1);
       const imgurl = file ? await upload() : null;
+      console.log(imgurl);
       //title desc img cat user info-> uid (update, post id);
       console.log(2);
       console.log(state);
